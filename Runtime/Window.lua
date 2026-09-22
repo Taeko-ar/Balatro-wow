@@ -103,7 +103,8 @@ rootFrame:HookScript("OnHide", function()
 end)
 
 local grip = CreateFrame("Button", nil, rootFrame)
-grip:SetSize(24, 24)
+grip:SetSize(48, 48)
+grip:SetFrameLevel(rootFrame:GetFrameLevel() + 120)
 grip:SetPoint("BOTTOMRIGHT", rootFrame, "BOTTOMRIGHT", 0, 0)
 grip:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
 grip:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
@@ -128,4 +129,80 @@ end)
 grip:SetScript("OnMouseUp", function(self)
     self:SetScript("OnUpdate", nil)
     saveLayout()
+end)
+
+local SETTING_DEFAULTS = {
+    openFlightStart = false,
+    openDeath = false,
+    openLogIn = false,
+    closeFlightEnd = false,
+    closeReadyCheck = true,
+    closeCombat = true,
+    mouseOnTrans = 1,
+    mouseOffTrans = 0.6,
+}
+local function settings()
+    BalatroProfile = BalatroProfile or {}
+    BalatroProfile.settings = BalatroProfile.settings or {}
+    local s = BalatroProfile.settings
+    for k, v in pairs(SETTING_DEFAULTS) do
+        if s[k] == nil then
+            s[k] = v
+        end
+    end
+    return s
+end
+Balatro.Window.settings = settings
+
+local FADE_TIME = 0.5
+local fade = 0
+local fader = CreateFrame("Frame", nil, rootFrame)
+fader:SetScript("OnUpdate", function(_, elapsed)
+    local s = settings()
+    if MouseIsOver(rootFrame, TITLE_H + 8, -8, -8, 8) then
+        fade = 0
+    else
+        fade = math.min(1, fade + elapsed / FADE_TIME)
+    end
+    rootFrame:SetAlpha(s.mouseOnTrans + (s.mouseOffTrans - s.mouseOnTrans) * fade)
+end)
+
+local flying = false
+local autoFrame = CreateFrame("Frame")
+autoFrame:RegisterEvent("PLAYER_LOGIN")
+autoFrame:RegisterEvent("PLAYER_DEAD")
+autoFrame:RegisterEvent("READY_CHECK")
+autoFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+autoFrame:SetScript("OnEvent", function(_, event)
+    local s = settings()
+    if event == "PLAYER_LOGIN" then
+        if s.openLogIn then
+            rootFrame:Show()
+        end
+    elseif event == "PLAYER_DEAD" then
+        if s.openDeath then
+            rootFrame:Show()
+        end
+    elseif event == "READY_CHECK" then
+        if s.closeReadyCheck then
+            rootFrame:Hide()
+        end
+    elseif event == "PLAYER_REGEN_DISABLED" then
+        if s.closeCombat then
+            rootFrame:Hide()
+        end
+    end
+end)
+autoFrame:SetScript("OnUpdate", function()
+    local onTaxi = UnitOnTaxi("player") and true or false
+    if onTaxi == flying then
+        return
+    end
+    flying = onTaxi
+    local s = settings()
+    if flying and s.openFlightStart then
+        rootFrame:Show()
+    elseif not flying and s.closeFlightEnd then
+        rootFrame:Hide()
+    end
 end)

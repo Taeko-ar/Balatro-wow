@@ -149,3 +149,5 @@ globals:
     any: true
   wipe:
     any: true
+  UnitOnTaxi:
+    any: true

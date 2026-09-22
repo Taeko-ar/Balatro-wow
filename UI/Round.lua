@@ -2378,16 +2378,16 @@ do
     end
 
     local SET = sharedFrame()
-    local setL = panel(SET, 390, 170, 500, 380)
-    text(setL, 390, 190, 500, 34, C.white):SetText("Settings")
-    text(setL, 390, 250, 500, 24, C.white):SetText("Game Speed")
+    local setL = panel(SET, 390, 60, 500, 600)
+    text(setL, 390, 80, 500, 34, C.white):SetText("Settings")
+    text(setL, 390, 134, 500, 24, C.white):SetText("Game Speed")
     local SPEEDS = { 0.5, 1, 2, 4 }
     local speedBtns = {}
     for i, v in ipairs(SPEEDS) do
         speedBtns[i] = button(
             setL,
             430 + (i - 1) * 108,
-            284,
+            166,
             96,
             50,
             C.mult,
@@ -2401,21 +2401,84 @@ do
             end
         )
     end
-    text(setL, 390, 346, 250, 24, C.white):SetText("Music")
-    local musicBtn = button(setL, 440, 374, 150, 44, C.mult, "On", 24, function()
+    text(setL, 390, 230, 250, 24, C.white):SetText("Music")
+    local musicBtn = button(setL, 440, 258, 150, 44, C.mult, "On", 24, function()
         local g = _G.G
         if g and g.set_music_volume then
             g:set_music_volume(g:get_music_volume() > 0 and 0 or 100)
         end
     end)
-    text(setL, 640, 346, 250, 24, C.white):SetText("Sound")
-    local sfxBtn = button(setL, 690, 374, 150, 44, C.mult, "On", 24, function()
+    text(setL, 640, 230, 250, 24, C.white):SetText("Sound")
+    local sfxBtn = button(setL, 690, 258, 150, 44, C.mult, "On", 24, function()
         BalatroProfile = BalatroProfile or {}
         BalatroProfile.sfxOff = not BalatroProfile.sfxOff
     end)
-    local winHint = text(setL, 400, 424, 480, 18, C_DISABLED_TXT)
+    local updateWindowOptions
+    do
+        local checks, sliders = {}, {}
+        local function checkbox(x, y, label, key)
+            local b = button(setL, x, y, 26, 26, C.panelDark, "", 20, function()
+                local s = Balatro.Window.settings()
+                s[key] = not s[key]
+            end)
+            checks[#checks + 1] = { rect(b, 5, 5, 16, 16, C.mult, 1, "ARTWORK"), key }
+            text(setL, x + 36, y + 4, 200, 20, C.white, "LEFT"):SetText(label)
+        end
+        local function slider(y, label, key, minV)
+            text(setL, 410, y + 3, 220, 20, C.white, "LEFT"):SetText(label)
+            local t = CreateFrame("Frame", nil, setL)
+            t:SetPoint("TOPLEFT", setL, "TOPLEFT", 640, -y)
+            t:SetSize(170, 24)
+            t:EnableMouse(true)
+            rect(t, 0, 0, 170, 24, C.panelDark)
+            local function drag()
+                local x = GetCursorPosition() / t:GetEffectiveScale() - t:GetLeft()
+                local v = minV + (1 - minV) * math.max(0, math.min(1, x / 170))
+                Balatro.Window.settings()[key] = math.floor(v * 100 + 0.5) / 100
+            end
+            local function stop(self)
+                self:SetScript("OnUpdate", nil)
+            end
+            t:SetScript("OnMouseDown", function(self)
+                drag()
+                self:SetScript("OnUpdate", drag)
+            end)
+            t:SetScript("OnMouseUp", stop)
+            t:SetScript("OnHide", stop)
+            sliders[#sliders + 1] = {
+                rect(t, 0, 0, 170, 24, C.mult, 1, "ARTWORK"),
+                text(setL, 816, y + 3, 60, 20, C.white, "RIGHT"),
+                key,
+                minV,
+            }
+        end
+        text(setL, 410, 322, 230, 22, C.orange, "LEFT"):SetText("Auto-Open:")
+        checkbox(410, 352, "On Flight Start", "openFlightStart")
+        checkbox(410, 384, "On Death", "openDeath")
+        checkbox(410, 416, "On Log-in", "openLogIn")
+        text(setL, 650, 322, 230, 22, C.orange, "LEFT"):SetText("Auto-Close:")
+        checkbox(650, 352, "On Flight End", "closeFlightEnd")
+        checkbox(650, 384, "On Ready Check", "closeReadyCheck")
+        checkbox(650, 416, "On Enter Combat", "closeCombat")
+        slider(460, "Mouse-on Transparency", "mouseOnTrans", 0.1)
+        slider(496, "Mouse-off Transparency", "mouseOffTrans", 0)
+        updateWindowOptions = function()
+            local s = Balatro.Window.settings()
+            for _, c in ipairs(checks) do
+                shown(c[1], s[c[2]])
+            end
+            for _, sl in ipairs(sliders) do
+                local v = s[sl[3]]
+                local frac = (v - sl[4]) / (1 - sl[4])
+                sl[1]:SetWidth(math.max(1, 170 * frac))
+                shown(sl[1], frac > 0)
+                sl[2]:SetText(string.format("%.2f", v))
+            end
+        end
+    end
+    local winHint = text(setL, 400, 540, 480, 18, C_DISABLED_TXT)
     winHint:SetText("Window: drag the title bar to move, the corner to resize")
-    button(setL, 400, 496, 480, 38, C.orange, "Back", 26, function()
+    button(setL, 400, 598, 480, 38, C.orange, "Back", 26, function()
         SET:Hide()
     end)
     local function updateSettings(g)
@@ -2429,6 +2492,7 @@ do
         local sfxOn = not (BalatroProfile and BalatroProfile.sfxOff)
         sfxBtn.label:SetText(sfxOn and "On" or "Off")
         sfxBtn:SetColor(sfxOn and C.mult or darken(C.mult, 0.55))
+        updateWindowOptions()
     end
 
     local STAT = sharedFrame()
