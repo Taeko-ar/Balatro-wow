@@ -1,0 +1,151 @@
+base: lua51
+name: wow
+globals:
+  BALATRO_CHALLENGES:
+    any: true
+  BALATRO_MODULES:
+    any: true
+  BalatroCanvas:
+    any: true
+  BalatroData:
+    any: true
+  BalatroDebug:
+    any: true
+  BalatroImageDimensions:
+    any: true
+  BalatroMainMenu:
+    any: true
+  BalatroProfile:
+    any: true
+  BalatroRound:
+    any: true
+  CONSUMABLE_DEFS:
+    any: true
+  Card:
+    any: true
+  Consumable:
+    any: true
+  CreateFrame:
+    any: true
+  DECK_DEFS:
+    any: true
+  DECK_DEFS_BY_ID:
+    any: true
+  DEFAULT_CHAT_FRAME:
+    any: true
+  Deck:
+    any: true
+  G:
+    any: true
+  Game:
+    any: true
+  GameTooltip:
+    any: true
+  GetAddOnMetadata:
+    any: true
+  GetCursorPosition:
+    any: true
+  GetScreenHeight:
+    any: true
+  GetTime:
+    any: true
+  HEX:
+    any: true
+  Hand:
+    any: true
+  IsMouseButtonDown:
+    any: true
+  JOKER_DEFS:
+    any: true
+  Joker:
+    any: true
+  JokerEffects:
+    any: true
+  Minimap:
+    any: true
+  MouseIsOver:
+    any: true
+  Moveable:
+    any: true
+  Node:
+    any: true
+  Object:
+    any: true
+  PlayMusic:
+    any: true
+  PlaySoundFile:
+    any: true
+  Popup:
+    any: true
+  PopupHeight:
+    any: true
+  SLASH_BALATRO1:
+    any: true
+  SLASH_BALATRODEBUG1:
+    any: true
+  STAKE_DEFS:
+    any: true
+  STAKE_DEFS_BY_ID:
+    any: true
+  Sfx:
+    any: true
+  ShopBoosterNode:
+    any: true
+  ShopVoucherNode:
+    any: true
+  SlashCmdList:
+    any: true
+  Sprite:
+    any: true
+  StopMusic:
+    any: true
+  Tag:
+    any: true
+  Top:
+    any: true
+  TopUI:
+    any: true
+  UIParent:
+    any: true
+  VOUCHER_DEFS:
+    any: true
+  buttonHeight:
+    any: true
+  collectgarbage:
+    any: true
+  copy_table:
+    any: true
+  cos:
+    any: true
+  date:
+    any: true
+  difftime:
+    any: true
+  draw_rect_with_shadow:
+    any: true
+  draw_rounded_rect:
+    any: true
+  jokerHeight:
+    any: true
+  love:
+    any: true
+  os:
+    any: true
+  package:
+    any: true
+  print:
+    any: true
+  require:
+    any: true
+  signHeight:
+    any: true
+  sin:
+    any: true
+  sysDepth:
+    any: true
+  textHeight:
+    any: true
+  time:
+    any: true
+  wipe:
+    any: true

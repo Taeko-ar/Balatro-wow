@@ -1,0 +1,24 @@
+## Interface: 30300
+## Title: Balatro
+## Version: 0.1.0
+## Notes: A poker roguelike, in your UI.
+## Author: Taeko
+## SavedVariables: BalatroData
+## SavedVariablesPerCharacter: BalatroProfile
+
+Runtime\Environment.lua
+Runtime\ImageDimensions.lua
+Build\Engine.lua
+Runtime\Window.lua
+Runtime\Graphics.lua
+Runtime\Audio.lua
+Runtime\Boot.lua
+Runtime\Input.lua
+Data\Challenges.lua
+Game\Challenges.lua
+Game\Autosave.lua
+Core\Commands.lua
+Core\Init.lua
+UI\MinimapButton.lua
+UI\MainMenu.lua
+UI\Round.lua

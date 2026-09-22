@@ -1,0 +1,9 @@
+docs
+.agents
+CLAUDE.md
+Build
+dist
+tools/deploy.sh
+tools/deploy-test.sh
+tools/game.sh
+tools/wow-restart.sh

@@ -1,0 +1,9 @@
+std = "wow"
+exclude = ["luaenv/**", "Build/**", "docs/**"]
+
+[lints]
+unused_variable = "allow"
+shadowing = "warn"
+global_usage = "allow"
+mixed_table = "allow"
+if_same_then_else = "allow"
