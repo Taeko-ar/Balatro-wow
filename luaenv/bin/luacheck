@@ -1,3 +1,0 @@
-#!/bin/sh
-
-LUAROCKS_SYSCONFDIR='/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/etc/luarocks' exec '/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/bin/lua' -e 'package.path="/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/share/lua/5.1/?.lua;/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/share/lua/5.1/?/init.lua;"..package.path;package.cpath="/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/lib/lua/5.1/?.so;"..package.cpath;local k,l,_=pcall(require,"luarocks.loader") _=k and l.add_context("luacheck","1.2.0-1")' '/var/mnt/hdd/Dev/Balatro-balatrez-wow-wotlk/luaenv/lib/luarocks/rocks-5.1/luacheck/1.2.0-1/bin/luacheck' "$@"

@@ -7,3 +7,4 @@ tools/deploy.sh
 tools/deploy-test.sh
 tools/game.sh
 tools/wow-restart.sh
+luaenv
