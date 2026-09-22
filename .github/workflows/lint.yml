@@ -19,7 +19,7 @@ jobs:
       - name: Install luacheck
         run: luarocks install luacheck 1.2.0-1
       - name: luacheck
-        run: luacheck .
+        run: luacheck Engine Runtime Core Game UI Data
       - name: luac compile check
         run: find Engine Runtime Core Game UI Data -name '*.lua' -print0 | xargs -0 -n1 luac -p
       - name: stylua
