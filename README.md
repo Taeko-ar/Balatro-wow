@@ -1,6 +1,10 @@
 # Balatro for World of Warcraft
 
-Balatro inside World of Warcraft WotLK 3.3.5a. It runs in its own window so you can keep an eye on the game while you play, drag it wherever you want and resize it from the corner.
+Balatro inside World of Warcraft WotLK 3.3.5a.
+
+<p align="center">
+  <img src="img/showcase.gif" width="100%" alt="Balatro in WoW" />
+</p>
 
 > [!IMPORTANT]
 > This is a **fan version**, not affiliated with or endorsed by LocalThunk or Playstack. If you like it, [buy the real game](https://store.steampowered.com/app/2379780/Balatro/), it's way better than this.
@@ -40,7 +44,3 @@ The game logic of this addon is based on their 3DS remake.
 
 [a327ex](https://github.com/a327ex) \
 The base object class comes from [SNKRX](https://github.com/a327ex/SNKRX) (MIT).
-
-## License
-
-GPL-3.0, same as [Balatro 3DS](https://github.com/idkhan/Balatro3DS).
