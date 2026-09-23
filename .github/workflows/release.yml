@@ -11,15 +11,26 @@ permissions:
 jobs:
   lint:
     uses: ./.github/workflows/lint.yml
+  lint-forever:
+    uses: ./.github/workflows/lint.yml
+    with:
+      ref: "1.60"
   release:
-    needs: lint
+    needs: [lint, lint-forever]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: "1.60"
+          path: forever
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick zip rsync
       - name: Package
-        run: tools/package.sh "$GITHUB_REF_NAME"
+        run: |
+          tools/package.sh "$GITHUB_REF_NAME"
+          forever/tools/package.sh "$GITHUB_REF_NAME"
+          mv "forever/dist/Balatro-${GITHUB_REF_NAME#v}.zip" "dist/Balatro-${GITHUB_REF_NAME#v}-forever.zip"
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
