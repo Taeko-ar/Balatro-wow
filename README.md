@@ -1,6 +1,6 @@
 # Balatro for World of Warcraft
 
-Balatro inside World of Warcraft WotLK 3.3.5a.
+Balatro inside World of Warcraft Forever.
 
 <p align="center">
   <img src="img/showcase.gif" width="100%" alt="Balatro in WoW" />
