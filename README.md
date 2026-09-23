@@ -2,6 +2,8 @@
 
 Balatro inside World of Warcraft WotLK 3.3.5a.
 
+**WoW Forever version** [here](https://github.com/Taeko-ar/Balatro-wow/tree/1.60)
+
 <p align="center">
   <img src="img/showcase.gif" width="100%" alt="Balatro in WoW" />
 </p>
