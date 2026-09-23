@@ -537,7 +537,11 @@ local function applyEdition(b, edition)
         c = { 0.5 + 0.5 * math.sin(t * 2.2), 0.5 + 0.5 * math.sin(t * 2.2 + 2.1), 0.5 + 0.5 * math.sin(t * 2.2 + 4.2) }
     end
     local p = 0.5 + 0.5 * math.sin(t * 1.6)
-    b.shine:SetGradient("HORIZONTAL", CreateColor(c[1], c[2], c[3], 0.10 + 0.30 * p), CreateColor(c[1], c[2], c[3], 0.40 - 0.30 * p))
+    b.shine:SetGradient(
+        "HORIZONTAL",
+        CreateColor(c[1], c[2], c[3], 0.10 + 0.30 * p),
+        CreateColor(c[1], c[2], c[3], 0.40 - 0.30 * p)
+    )
     b.shine:Show()
 end
 
