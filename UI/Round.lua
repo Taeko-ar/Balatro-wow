@@ -49,11 +49,11 @@ local function fmtNum(v)
     return (out:gsub("^,", ""):gsub("^%-,", "-"))
 end
 local function fitText(fs, str, maxW, size)
-    fs:SetFont(FONT, size)
+    fs:SetFont(FONT, size, "")
     fs:SetText(str)
     while fs:GetStringWidth() > maxW and size > 10 do
         size = size - 2
-        fs:SetFont(FONT, size)
+        fs:SetFont(FONT, size, "")
     end
 end
 local function rgb(c, a)
@@ -81,13 +81,13 @@ local function rect(parent, x, y, w, h, color, alpha, layer)
     local t = parent:CreateTexture(nil, layer or "BACKGROUND")
     t:SetPoint("TOPLEFT", parent, "TOPLEFT", x, -y)
     t:SetSize(w, h)
-    t:SetTexture(rgb(color, alpha))
+    t:SetColorTexture(rgb(color, alpha))
     return t
 end
 
 local function text(parent, x, y, w, size, color, justify, layer)
     local fs = parent:CreateFontString(nil, layer or "OVERLAY")
-    fs:SetFont(FONT, size)
+    fs:SetFont(FONT, size, "")
     fs:SetShadowColor(0, 0, 0, 0.6)
     fs:SetShadowOffset(2, -2)
     fs:SetTextColor(rgb(color or C.white))
@@ -103,21 +103,21 @@ local function button(parent, x, y, w, h, color, label, size, onClick)
     b:SetSize(w, h)
     b.bg = b:CreateTexture(nil, "BACKGROUND")
     b.bg:SetAllPoints()
-    b.bg:SetTexture(rgb(color))
+    b.bg:SetColorTexture(rgb(color))
     b.shadow = b:CreateTexture(nil, "BORDER")
     b.shadow:SetPoint("BOTTOMLEFT", b, "BOTTOMLEFT", 0, 0)
     b.shadow:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 0, 0)
     b.shadow:SetHeight(5)
-    b.shadow:SetTexture(0, 0, 0, 0.35)
+    b.shadow:SetColorTexture(0, 0, 0, 0.35)
     b.label = b:CreateFontString(nil, "OVERLAY")
-    b.label:SetFont(FONT, size or 26)
+    b.label:SetFont(FONT, size or 26, "")
     b.label:SetShadowColor(0, 0, 0, 0.6)
     b.label:SetShadowOffset(2, -2)
     b.label:SetPoint("CENTER", 0, 2)
     b.label:SetText(label)
     local hl = b:CreateTexture(nil, "HIGHLIGHT")
     hl:SetAllPoints()
-    hl:SetTexture(1, 1, 1, 0.12)
+    hl:SetColorTexture(1, 1, 1, 0.12)
     b:SetScript("OnClick", function(...)
         if love and love.audio then
             love.audio.newSource("Assets/sounds/button.ogg", "static"):play()
@@ -127,7 +127,7 @@ local function button(parent, x, y, w, h, color, label, size, onClick)
         end
     end)
     b.SetColor = function(self, c)
-        self.bg:SetTexture(rgb(c))
+        self.bg:SetColorTexture(rgb(c))
     end
     return b
 end
@@ -491,11 +491,11 @@ local function newSpriteButton(pool, i, onClick, parent)
     b.seal:SetAllPoints()
     b.shine = b:CreateTexture(nil, "OVERLAY")
     b.shine:SetAllPoints()
-    b.shine:SetTexture(1, 1, 1, 1)
+    b.shine:SetColorTexture(1, 1, 1, 1)
     b.shine:SetBlendMode("ADD")
     b.shine:Hide()
     b.debuff = b:CreateFontString(nil, "OVERLAY")
-    b.debuff:SetFont(FONT, 90)
+    b.debuff:SetFont(FONT, 90, "")
     b.debuff:SetTextColor(1, 0.25, 0.2, 0.8)
     b.debuff:SetPoint("CENTER")
     b.debuff:SetText("X")
@@ -537,7 +537,7 @@ local function applyEdition(b, edition)
         c = { 0.5 + 0.5 * math.sin(t * 2.2), 0.5 + 0.5 * math.sin(t * 2.2 + 2.1), 0.5 + 0.5 * math.sin(t * 2.2 + 4.2) }
     end
     local p = 0.5 + 0.5 * math.sin(t * 1.6)
-    b.shine:SetGradientAlpha("HORIZONTAL", c[1], c[2], c[3], 0.10 + 0.30 * p, c[1], c[2], c[3], 0.40 - 0.30 * p)
+    b.shine:SetGradient("HORIZONTAL", CreateColor(c[1], c[2], c[3], 0.10 + 0.30 * p), CreateColor(c[1], c[2], c[3], 0.40 - 0.30 * p))
     b.shine:Show()
 end
 
@@ -730,7 +730,7 @@ local function updateJokers(g)
             useBtn:ClearAllPoints()
             useBtn:SetPoint("TOPLEFT", RoundUI, "TOPLEFT", x + CARD_W / 2 - 48, -(41 + CARD_H + 30))
             local ok = g:consumable_use_enabled(i)
-            useBtn.bg:SetTexture(rgb(ok and { 0x35, 0xBD, 0x86 } or C_DISABLED_BTN))
+            useBtn.bg:SetColorTexture(rgb(ok and { 0x35, 0xBD, 0x86 } or C_DISABLED_BTN))
             useBtn._want = true
         end
     end
@@ -928,8 +928,8 @@ local function updateBlindSelect(g)
         f:SetHeight(720 - top)
 
         local bc = to255(g:get_blind_color(i))
-        f.edge:SetTexture(rgb(active and bc or C.panel))
-        f.bg:SetTexture(rgb(active and C_BLIND_BG_ACTIVE or C_BLIND_BG))
+        f.edge:SetColorTexture(rgb(active and bc or C.panel))
+        f.bg:SetColorTexture(rgb(active and C_BLIND_BG_ACTIVE or C_BLIND_BG))
 
         local state = (i < current and (wasSkipped(g, i) and "Skipped" or "Defeated"))
             or (active and "Select")
@@ -943,8 +943,8 @@ local function updateBlindSelect(g)
             f.header:Disable()
         end
 
-        f.plateEdge:SetTexture(rgb(active and bc or C_INACTIVE_EDGE))
-        f.plate:SetTexture(rgb(active and darken(bc, 0.55) or C.panel))
+        f.plateEdge:SetColorTexture(rgb(active and bc or C_INACTIVE_EDGE))
+        f.plate:SetColorTexture(rgb(active and darken(bc, 0.55) or C.panel))
         f.name:SetText(g:get_blind_display_name(i) or (def and def.name) or "")
 
         local row = g:get_blind_sprite_index(i) or 0
@@ -1121,7 +1121,7 @@ end)
 rerollBtn.label:ClearAllPoints()
 rerollBtn.label:SetPoint("TOP", 0, -10)
 local rerollCost = rerollBtn:CreateFontString(nil, "OVERLAY")
-rerollCost:SetFont(FONT, 40)
+rerollCost:SetFont(FONT, 40, "")
 rerollCost:SetShadowColor(0, 0, 0, 0.6)
 rerollCost:SetShadowOffset(2, -2)
 rerollCost:SetPoint("TOP", 0, -36)
@@ -1163,9 +1163,9 @@ local function priceTag(i, x, y, price)
         t:SetSize(56, 32)
         t.bg = t:CreateTexture(nil, "BACKGROUND")
         t.bg:SetAllPoints()
-        t.bg:SetTexture(rgb(C_TAG))
+        t.bg:SetColorTexture(rgb(C_TAG))
         t.text = t:CreateFontString(nil, "OVERLAY")
-        t.text:SetFont(FONT, 26)
+        t.text:SetFont(FONT, 26, "")
         t.text:SetTextColor(rgb(C.money))
         t.text:SetShadowColor(0, 0, 0, 0.6)
         t.text:SetShadowOffset(2, -2)
@@ -1400,8 +1400,8 @@ local function updateBooster(g)
         return
     end
     local tint = PACK_FELT[sess.pack or ""] or C.felt
-    felt:SetTexture(rgb(tint))
-    bpBorder:SetTexture(rgb(darken(tint, 1.2)))
+    felt:SetColorTexture(rgb(tint))
+    bpBorder:SetColorTexture(rgb(darken(tint, 1.2)))
     bpTitle:SetText(sess.title or "Pack")
     bpPicks:SetText("Choose " .. tostring(sess.picks_remaining or 0))
 
@@ -1555,7 +1555,7 @@ do
         local win = isWin(g)
         goTitle:SetText(win and "YOU WIN!" or "GAME OVER")
         goTitle:SetTextColor(rgb(win and C.orange or C.mult))
-        goTint:SetTexture(rgb(win and { 0x00, 0x93, 0xFF } or { 0xD9, 0x4A, 0x40 }, 0.72))
+        goTint:SetColorTexture(rgb(win and { 0x00, 0x93, 0xFF } or { 0xD9, 0x4A, 0x40 }, 0.72))
         shown(goDef, not win)
         shown(goEndless, win)
         goBest:SetText(fmtNum(g.run_best_hand_score))
@@ -1687,7 +1687,7 @@ do
         for i, r in ipairs(riBlinds) do
             local def = g:get_blind_def(i)
             local bc = to255(g:get_blind_color(i))
-            r.edge:SetTexture(rgb(i == current and bc or C_EDGE))
+            r.edge:SetColorTexture(rgb(i == current and bc or C_EDGE))
             applyCell(r.chip, "BlindChips.tga", 36, 36, (g:get_blind_sprite_index(i) or 0) * 21, 24, 1024, 1024)
             r.chip:SetDesaturated(i < current)
             r.name:SetText(g:get_blind_display_name(i) or (def and def.name) or "")
@@ -1971,27 +1971,27 @@ do
     TIP:SetSize(10, 10)
     TIP.edge = TIP:CreateTexture(nil, "BACKGROUND")
     TIP.edge:SetAllPoints()
-    TIP.edge:SetTexture(rgb(C_EDGE))
+    TIP.edge:SetColorTexture(rgb(C_EDGE))
     TIP.bg = TIP:CreateTexture(nil, "BORDER")
     TIP.bg:SetPoint("TOPLEFT", 3, -3)
     TIP.bg:SetPoint("BOTTOMRIGHT", -3, 3)
-    TIP.bg:SetTexture(rgb(C.panel))
+    TIP.bg:SetColorTexture(rgb(C.panel))
     TIP.title = TIP:CreateFontString(nil, "OVERLAY")
-    TIP.title:SetFont(FONT, 26)
+    TIP.title:SetFont(FONT, 26, "")
     TIP.title:SetShadowColor(0, 0, 0, 0.6)
     TIP.title:SetShadowOffset(2, -2)
     TIP.title:SetPoint("TOP", 0, -8)
     TIP.body = TIP:CreateTexture(nil, "ARTWORK")
-    TIP.body:SetTexture(1, 1, 1, 1)
+    TIP.body:SetColorTexture(1, 1, 1, 1)
     TIP.lines = {}
     for i = 1, TIP_LINES do
         local fs = TIP:CreateFontString(nil, "OVERLAY")
-        fs:SetFont(FONT, 20)
+        fs:SetFont(FONT, 20, "")
         TIP.lines[i] = fs
     end
     TIP.pill = TIP:CreateTexture(nil, "ARTWORK")
     TIP.pillText = TIP:CreateFontString(nil, "OVERLAY")
-    TIP.pillText:SetFont(FONT, 20)
+    TIP.pillText:SetFont(FONT, 20, "")
     TIP.pillText:SetShadowColor(0, 0, 0, 0.6)
     TIP.pillText:SetShadowOffset(2, -2)
     TIP:Hide()
@@ -2052,7 +2052,7 @@ do
             TIP.pill:ClearAllPoints()
             TIP.pill:SetPoint("TOP", TIP, "TOP", 0, -(46 + bodyH))
             TIP.pill:SetSize(pw, 30)
-            TIP.pill:SetTexture(rgb(rc))
+            TIP.pill:SetColorTexture(rgb(rc))
             TIP.pill:Show()
             TIP.pillText:ClearAllPoints()
             TIP.pillText:SetPoint("CENTER", TIP.pill, "CENTER", 0, 1)
@@ -2082,7 +2082,7 @@ do
             TIP:Hide()
             return
         end
-        local over = (b.IsMouseOver and b:IsMouseOver()) or (not b.IsMouseOver and MouseIsOver and MouseIsOver(b))
+        local over = b:IsMouseOver()
         if not over then
             hoverBtn = nil
             TIP:Hide()
@@ -2166,7 +2166,7 @@ do
         b.label:ClearAllPoints()
         b.label:SetPoint("CENTER", 0, 8)
         local cnt = b:CreateFontString(nil, "OVERLAY")
-        cnt:SetFont(FONT, 18)
+        cnt:SetFont(FONT, 18, "")
         cnt:SetShadowColor(0, 0, 0, 0.6)
         cnt:SetShadowOffset(2, -2)
         cnt:SetPoint("CENTER", 0, -12)
@@ -2643,7 +2643,7 @@ do
                         local t = 1 - (tonumber(p.time) or 0) / 0.75
                         local size = p.scale == 5 and 40
                             or math.floor(30 * (1 + 0.35 * math.sin(math.min(t, 1) * math.pi)))
-                        f.text:SetFont(FONT, size)
+                        f.text:SetFont(FONT, size, "")
                         f.text:SetText(tostring(p.text or ""))
                         local w, h = f.text:GetStringWidth() + 16, size + 10
                         f:SetSize(w, h)
@@ -2654,7 +2654,7 @@ do
                             f.bg:Hide()
                             f.text:SetTextColor(c[1] or 1, c[2] or 1, c[3] or 1, 1)
                         else
-                            f.bg:SetTexture(c[1] or 1, c[2] or 1, c[3] or 1, 1)
+                            f.bg:SetColorTexture(c[1] or 1, c[2] or 1, c[3] or 1, 1)
                             f.bg:Show()
                             f.text:SetTextColor(1, 1, 1, 1)
                         end
@@ -2672,8 +2672,8 @@ end
 local function refreshPanel(g, selecting, cashing, shopping, opening, inRound)
     local idx = g.current_blind_index or 1
     local bc = g.get_blind_color and to255(g:get_blind_color(idx)) or C.blind.small
-    banner:SetTexture(rgb(bc))
-    blindInfo:SetTexture(rgb(darken(bc, 0.45)))
+    banner:SetColorTexture(rgb(bc))
+    blindInfo:SetColorTexture(rgb(darken(bc, 0.45)))
     bannerText:SetText(g.current_blind_name or "")
     local blindDef = g.get_blind_def and g:get_blind_def(idx)
     local isBoss = blindDef and blindDef.id == "boss"
@@ -2682,7 +2682,7 @@ local function refreshPanel(g, selecting, cashing, shopping, opening, inRound)
         bossDesc:SetText(g:get_blind_description(idx) or "")
     end
     if not opening then
-        felt:SetTexture(rgb(isBoss and (inRound or selecting) and darken(bc, 0.5) or C.felt))
+        felt:SetColorTexture(rgb(isBoss and (inRound or selecting) and darken(bc, 0.5) or C.felt))
     end
     fitText(targetText, fmtNum(g.current_blind_target), 95, 32)
     local reward = g.get_blind_reward and g:get_blind_reward(idx) or 0

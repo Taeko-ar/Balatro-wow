@@ -14,7 +14,7 @@ globals = {
 }
 read_globals = {
     "CreateFrame", "UIParent", "Minimap", "GameTooltip", "DEFAULT_CHAT_FRAME", "GetTime",
-    "GetCursorPosition", "GetScreenHeight", "IsMouseButtonDown", "MouseIsOver", "GetAddOnMetadata", "UnitOnTaxi",
+    "GetCursorPosition", "GetScreenHeight", "IsMouseButtonDown", "C_AddOns", "CreateColor", "UnitOnTaxi",
     "PlayMusic", "StopMusic", "PlaySoundFile", "wipe", "time", "date", "difftime", "sin", "cos",
 }
 unused_args = false

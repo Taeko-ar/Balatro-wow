@@ -37,11 +37,13 @@ globals:
     any: true
   G:
     any: true
+  C_AddOns:
+    any: true
+  CreateColor:
+    any: true
   Game:
     any: true
   GameTooltip:
-    any: true
-  GetAddOnMetadata:
     any: true
   GetCursorPosition:
     any: true
@@ -62,8 +64,6 @@ globals:
   JokerEffects:
     any: true
   Minimap:
-    any: true
-  MouseIsOver:
     any: true
   Moveable:
     any: true

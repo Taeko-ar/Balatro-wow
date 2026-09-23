@@ -39,13 +39,13 @@ local function rect(parent, x, y, w, h, color, alpha, layer)
     local t = parent:CreateTexture(nil, layer or "BACKGROUND")
     t:SetPoint("TOPLEFT", parent, "TOPLEFT", x, -y)
     t:SetSize(w, h)
-    t:SetTexture(rgb(color, alpha))
+    t:SetColorTexture(rgb(color, alpha))
     return t
 end
 
 local function text(parent, x, y, w, size, color, justify)
     local fs = parent:CreateFontString(nil, "OVERLAY")
-    fs:SetFont(FONT, size)
+    fs:SetFont(FONT, size, "")
     if color ~= C.text then
         fs:SetShadowColor(0, 0, 0, 0.6)
         fs:SetShadowOffset(2, -2)
@@ -63,21 +63,21 @@ local function button(parent, x, y, w, h, color, label, size, onClick)
     b:SetSize(w, h)
     b.bg = b:CreateTexture(nil, "BACKGROUND")
     b.bg:SetAllPoints()
-    b.bg:SetTexture(rgb(color))
+    b.bg:SetColorTexture(rgb(color))
     local shadow = b:CreateTexture(nil, "BORDER")
     shadow:SetPoint("BOTTOMLEFT")
     shadow:SetPoint("BOTTOMRIGHT")
     shadow:SetHeight(5)
-    shadow:SetTexture(0, 0, 0, 0.35)
+    shadow:SetColorTexture(0, 0, 0, 0.35)
     b.label = b:CreateFontString(nil, "OVERLAY")
-    b.label:SetFont(FONT, size)
+    b.label:SetFont(FONT, size, "")
     b.label:SetShadowColor(0, 0, 0, 0.6)
     b.label:SetShadowOffset(2, -2)
     b.label:SetPoint("CENTER", 0, 2)
     b.label:SetText(label)
     local hl = b:CreateTexture(nil, "HIGHLIGHT")
     hl:SetAllPoints()
-    hl:SetTexture(1, 1, 1, 0.12)
+    hl:SetColorTexture(1, 1, 1, 0.12)
     b:SetScript("OnClick", function(...)
         if love and love.audio then
             love.audio.newSource("Assets/sounds/button.ogg", "static"):play()
@@ -126,7 +126,7 @@ local logoRank = Title:CreateTexture(nil, "OVERLAY")
 logoRank:SetAllPoints(logoCard)
 
 local version = text(Title, 1000, 40, 200, 16, C.white, "RIGHT")
-version:SetText((GetAddOnMetadata(AddOnName, "Version") or "") .. "-WOW")
+version:SetText((C_AddOns.GetAddOnMetadata(AddOnName, "Version") or "") .. "-WOW")
 
 rect(Title, 82, 580, 134, 96, C.panel)
 text(Title, 82, 590, 134, 22, C.white):SetText("Profile")
@@ -402,7 +402,7 @@ local function updateChallenges(g)
             b.label:SetText(
                 unlocked and (ch.name .. (CHM.isCompleted(g, ch.id) and "  |cff35bd86done|r" or "")) or "Locked"
             )
-            b.bg:SetTexture(rgb(not unlocked and C.grey or (chSel == ch.id and C.orange or C.red)))
+            b.bg:SetColorTexture(rgb(not unlocked and C.grey or (chSel == ch.id and C.orange or C.red)))
             b:Show()
         else
             b:Hide()
@@ -419,9 +419,9 @@ local function updateRunPanel(g)
     local d = decks[tonumber(g._deck_select_idx) or 1]
     local s = stakes[tonumber(g._stake_select_idx) or 1]
     local hasSave = g.has_saved_run and g:has_saved_run()
-    tabContinue.bg:SetTexture(rgb(hasSave and C.red or C.grey))
-    tabNew.bg:SetTexture(rgb(runTab == "new" and C.red or darken(C.red, 0.6)))
-    tabChallenges.bg:SetTexture(rgb(runTab == "challenges" and C.red or darken(C.red, 0.6)))
+    tabContinue.bg:SetColorTexture(rgb(hasSave and C.red or C.grey))
+    tabNew.bg:SetColorTexture(rgb(runTab == "new" and C.red or darken(C.red, 0.6)))
+    tabChallenges.bg:SetColorTexture(rgb(runTab == "challenges" and C.red or darken(C.red, 0.6)))
     shown(CH, runTab == "challenges")
     shown(deckFrame, runTab == "new")
     shown(playBtn, runTab == "new")
@@ -452,7 +452,7 @@ local function updateRunPanel(g)
         stakeDesc:SetText(stakeOk and (s.description or "") or "Locked: win with the previous Stake on this Deck")
     end
     local playable = d and g:is_deck_unlocked(d.id) and stakeOk
-    playBtn.bg:SetTexture(rgb(playable and C.blue or C.grey))
+    playBtn.bg:SetColorTexture(rgb(playable and C.blue or C.grey))
 end
 
 local errorReported = false

@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 16001
 ## Title: Balatro
 ## Version: 0.1.0
 ## Notes: A poker roguelike, in your UI.

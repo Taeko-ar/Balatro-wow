@@ -17,10 +17,10 @@ for entry in "$ADDON_DIR"/* "$ADDON_DIR"/.[!.]*; do
     [ -e "$entry" ] || continue
     case " $KEEP " in *" $(basename "$entry") "*) ;; *) rm -rf "$entry" ;; esac
 done
-for entry in Balatro.toc LICENSE Build Core Data Game Runtime UI; do
-    rsync -a --delete "$entry" "$ADDON_DIR/"
+for entry in Balatro.toc LICENSE Build Core Data Game Runtime UI Assets; do
+    rm -rf "$ADDON_DIR/$entry"
+    cp -r "$entry" "$ADDON_DIR/"
 done
-rsync -a --delete Assets/ "$ADDON_DIR/Assets/"
 
 DIMS="$ADDON_DIR/Runtime/ImageDimensions.lua"
 echo "BalatroImageDimensions = {}" > "$DIMS"

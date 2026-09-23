@@ -57,7 +57,7 @@ rootFrame:SetScript("OnEvent", function(self, event, arg1)
     restoreLayout()
 end)
 
-local chrome = CreateFrame("Frame", nil, rootFrame)
+local chrome = CreateFrame("Frame", nil, rootFrame, "BackdropTemplate")
 chrome:SetPoint("TOPLEFT", rootFrame, "TOPLEFT", -8, TITLE_H + 8)
 chrome:SetPoint("BOTTOMRIGHT", rootFrame, "BOTTOMRIGHT", 8, -8)
 chrome:SetBackdrop({
@@ -159,7 +159,7 @@ local fade = 0
 local fader = CreateFrame("Frame", nil, rootFrame)
 fader:SetScript("OnUpdate", function(_, elapsed)
     local s = settings()
-    if MouseIsOver(rootFrame, TITLE_H + 8, -8, -8, 8) then
+    if rootFrame:IsMouseOver(TITLE_H + 8, -8, -8, 8) then
         fade = 0
     else
         fade = math.min(1, fade + elapsed / FADE_TIME)

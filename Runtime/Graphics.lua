@@ -76,7 +76,7 @@ end)
 
 local bg = canvasFrame:CreateTexture(nil, "BACKGROUND")
 bg:SetAllPoints()
-bg:SetTexture(0, 0, 0, 1)
+bg:SetColorTexture(0, 0, 0, 1)
 
 local function getTexture()
     activeTextures = activeTextures + 1
@@ -322,7 +322,7 @@ _G.love.graphics = {
 
         local tex = getTexture()
         local c = _G.love.graphics._currentColor
-        tex:SetTexture(c[1], c[2], c[3], mode == "fill" and (c[4] or 1) or 0.5)
+        tex:SetColorTexture(c[1], c[2], c[3], mode == "fill" and (c[4] or 1) or 0.5)
         tex:SetTexCoord(0, 1, 0, 1)
         tex:SetPoint("TOPLEFT", canvasFrame, "TOPLEFT", final_x, -final_y)
         tex:SetSize(final_w, final_h)
@@ -336,12 +336,12 @@ _G.love.graphics = {
         local alpha = a or 1
         if r then
             if type(r) == "table" then
-                bg:SetTexture(r[1], r[2], r[3], alpha)
+                bg:SetColorTexture(r[1], r[2], r[3], alpha)
             else
-                bg:SetTexture(r, g, b, alpha)
+                bg:SetColorTexture(r, g, b, alpha)
             end
         else
-            bg:SetTexture(0, 0, 0, alpha)
+            bg:SetColorTexture(0, 0, 0, alpha)
         end
     end,
 
