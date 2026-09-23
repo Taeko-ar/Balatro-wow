@@ -46,8 +46,10 @@ end
 local function text(parent, x, y, w, size, color, justify)
     local fs = parent:CreateFontString(nil, "OVERLAY")
     fs:SetFont(FONT, size)
-    fs:SetShadowColor(0, 0, 0, 0.6)
-    fs:SetShadowOffset(2, -2)
+    if color ~= C.text then
+        fs:SetShadowColor(0, 0, 0, 0.6)
+        fs:SetShadowOffset(2, -2)
+    end
     fs:SetTextColor(rgb(color or C.white))
     fs:SetJustifyH(justify or "CENTER")
     fs:SetPoint("TOPLEFT", parent, "TOPLEFT", x, -y)
