@@ -30,7 +30,7 @@ find "$ADDON_DIR/Assets" -type f -name "*.png" | sort | while read -r img; do
     pw=1; while [ $pw -lt "$w" ]; do pw=$((pw * 2)); done
     ph=1; while [ $ph -lt "$h" ]; do ph=$((ph * 2)); done
     tga="${img%.png}.tga"
-    $CONVERT "$img" -background transparent -gravity NorthWest -extent ${pw}x${ph} -type TrueColorAlpha "$tga"
+    $CONVERT "$img" -background transparent -gravity NorthWest -extent ${pw}x${ph} -orient TopLeft -type TrueColorAlpha "$tga"
     rel=$(echo "$tga" | sed "s|^$ADDON_DIR/||; s|/|\\\\\\\\|g")
     echo "BalatroImageDimensions[\"Interface\\\\AddOns\\\\Balatro\\\\$rel\"] = {$w, $h, $pw, $ph}" >> "$DIMS"
     rm "$img"
