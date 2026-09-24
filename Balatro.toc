@@ -1,6 +1,6 @@
 ## Interface: 16001
 ## Title: Balatro
-## Version: 1.0.0
+## Version: 1.0.1
 ## Notes: A poker roguelike, in your UI.
 ## Author: Taeko
 ## SavedVariables: BalatroData
