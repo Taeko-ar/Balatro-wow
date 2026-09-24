@@ -29,7 +29,7 @@ The goal is to be as close as possible to PC Balatro: same layout, same flow and
 
 ```bash
 tools/build-addon.sh <path to AddOns/Balatro>   # build and copy the addon (needs ImageMagick)
-tools/package.sh v1.0.0                         # build dist/Balatro-1.0.0.zip
+tools/package.sh v1.0.1                         # build dist/Balatro-1.0.1.zip
 luaenv/bin/luacheck .                           # lint
 selene Engine Runtime Core Game UI Data         # lint (second pass)
 stylua Engine Runtime Core Game UI Data         # format
